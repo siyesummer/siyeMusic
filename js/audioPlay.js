@@ -17,7 +17,7 @@ export default class AudioPlay {
     this.lyrMessage = '';
 
     this.audioPlayParams = ['$playBtn', '$playNextBtn', '$playPreBtn', '$lycAlbum', '$currentPlayTime', '$lycText', '$audioName', '$radioRadyProcess', '$btnI', '$playModel',
-      '$countDown', '$countSet', '$setTime', '$countDownArea', '$volControl', '$volBar'
+      '$countDown', '$countSet', '$setTime', '$countDownArea', '$volControl', '$volBar', 'musicPath', 'radioPath'
     ];
     this.setParams(this.audioListParams, $audioPlayParams);
   }
@@ -128,16 +128,16 @@ export default class AudioPlay {
     this.isSelectedAudio = true;
     this.currentPlayIndex = index;
 
-    if (this.lyricName != 'not_file'&&this.audioType=='music') {
+    if (this.lyricName != 'not_file' && this.audioType == 'music') {
       this.addAudioLyric(); //加载歌词
     }
 
     if (this.audioType == 'music') {
       this.currentPlayAudioType = 'music';
-      this.$audio.attr('src', `./source/music/${mus_mes.id}.mp3`);
+      this.$audio.attr('src', `${this.musicPath}${mus_mes.id}.mp3`);
     } else if (this.audioType == 'radio') {
       this.currentPlayAudioType = 'radio';
-      this.$audio.attr('src', `./source/radio/${mus_mes.id}.mp3`);
+      this.$audio.attr('src', `${this.radioPath}${mus_mes.id}.mp3`);
     }
 
     this.$audioName.html(mus_mes.musname);

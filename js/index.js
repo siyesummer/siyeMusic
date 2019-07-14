@@ -68,6 +68,8 @@ let $audioPlayParams = {
   $countDownArea: $('.Countdown span').eq(0),
   $volControl: $('.control a').eq(0),
   $volBar: $('.control .barbg'),
+  musicPath: './source/music/',
+  radioPath: './source/radio/'
 };
 
 
