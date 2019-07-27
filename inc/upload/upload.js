@@ -2,6 +2,7 @@
 var fileType ='';//上传文件类型
 var myxmlhttp="";
 var type_hit ="";
+var isChecked = false;
 function $(id)
 {
 	return document.getElementById(id);
@@ -16,7 +17,7 @@ function getXmlHttpObject()
 			xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
 			//alert('ie');
 		}
-	else 
+	else
 		{
 			xmlHttpRequest = new XMLHttpRequest();
 			//alert('谷歌');
@@ -79,7 +80,7 @@ function send_ac()
 			$('show_mus').src = "";
 			if(myxmlhttp.status>=200&&myxmlhttp.status<300||myxmlhttp.status==304)
 				{
-				
+
 					var mes = myxmlhttp.responseText;
 					//console.log(mes);
 					var mesRes_value = eval("("+mes+")");
@@ -90,31 +91,31 @@ function send_ac()
 					var hit_mes = mesRes_value.hit_mes;
 					var file_dir = mesRes_value.file_dir;
 					var file_name = mesRes_value.file_name;
-					
+
 					if(hit_mes=='没有选择文件')
 						{
 							upfileHit(hit_mes);
 							return;
 						}
-					
+
 					if(is_file=='false')
 						{
 							var status1 = hit_mes+'文件上传失败';
 							upfileHit(status1);
 							return;
 						}
-					
+
 					if(is_upload=='false')
 						{
 							var status2 = hit_mes+'文件上传失败';
 							upfileHit(status2);
 							return;
 						}
-						
-				
+
+
 					if(file_type=='picture')
 						{
-							
+
 							$('hit_picfile').innerText = hit_mes;
 							$('show_img').src = file_dir+file_name;
 						}
@@ -122,13 +123,14 @@ function send_ac()
 						{
 							$('show_mus').controls = 'controls';
 							$('show_mus').src = file_dir+file_name+'.mp3';
-							
+
 							$('hit_musfile').innerText = hit_mes;
-	
+
 						}
 					else if(type_hit=='radio')
 						{
 							$('hit_radiofile').innerText = hit_mes;
+							$("ajax_radio").style.display = "none";
 						}
 				}
 			console.log($('hit_radiofile').innerText);
@@ -156,22 +158,31 @@ function send_file(file_type)
 				{
 					formData.append("ajax_radiofile",$('radio_file').files[0]);
 				}
-			
+
 			myxmlhttp.open("post",url,true);
 			console.log('来了');
-			
+
 			//myxmlhttp.setRequestHeader("Content-Type","multipart/form-data");//传递formdata中的东西，不需要设置header，否则会出错
 			myxmlhttp.send(formData);
 			myxmlhttp.onreadystatechange=send_ac;
 		}
-	
+
 }
 
 
 function ajax_fileup(file_type)
 {
 	fileType = file_type;
-	send_file(file_type);
+	if(file_type=='radio'){
+		if(isChecked){
+			send_file(file_type);
+		}else{
+			console.log('骚年,你还没验证(⊙o⊙)…');
+		}
+	}else{
+		send_file(file_type);
+	}
+
 	//$('hit').innerText = file_type;
 }
 
@@ -190,7 +201,7 @@ $('summer').onkeyup = function(event){
 };
 
 function send_pa(){
-	
+
 	if(myxmlhttp.readyState==4)
 		{
 			if(myxmlhttp.status>=200&&myxmlhttp.status<300||myxmlhttp.status==304)
@@ -200,12 +211,13 @@ function send_pa(){
 					var hit_mes = mesRes_value.hit_mes;
 					//console.log(hit_mes,typeof hit_mes);
 					//return;
-					
+
 					if(hit_mes=='true')
 						{
 							$("ajax_radio").style.display = "inline";
 							$("hit_summer").innerText = "验证成功";
 							$('summer').value = '';
+							isChecked = true;
 						}
 					else
 						{
@@ -214,7 +226,7 @@ function send_pa(){
 							$("ajax_radio").style.display = "none";
 						}
 				}
-			
+
 		}
 
 }
@@ -240,7 +252,7 @@ function upfileHit(mes){
 	if(fileType=='music')
 	{
 		$('hit_musfile').innerText = mes;
-									
+
 	}
 	else if(fileType=='radio')
 	{
@@ -249,11 +261,5 @@ function upfileHit(mes){
 	else if(fileType=='picture')
 	{
 		$('hit_picfile').innerText = mes;
-	}						
+	}
 }
-
-
-
-
-
-
