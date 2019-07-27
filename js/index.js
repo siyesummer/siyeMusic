@@ -3,8 +3,9 @@ import AudList from './audioList';
 import AudioPlay from './audioPlay';
 import Progress from './progress';
 import AudioLyric from './audioLyric';
+import Comment from './comment';
 
-class SiyeMusic extends Helper.mix(AudList, AudioPlay, Progress, AudioLyric) {
+class SiyeMusic extends Helper.mix(AudList, AudioPlay, Progress, AudioLyric, Comment) {
   constructor(...arg) {
     super(arg);
 
@@ -12,11 +13,13 @@ class SiyeMusic extends Helper.mix(AudList, AudioPlay, Progress, AudioLyric) {
     this.setParams(this.audioPlayParams, arg[1]);
     this.setParams(this.progressParams, arg[2]);
     this.setParams(this.audioLyricParams, arg[3]);
+    this.setParams(this.commentParams, arg[4]);
 
     this.getAudioList('get_mus'); //初始化音频文件列表
     this.addAudioListEvent(); //音频列表相关事件监听
     this.addAudioPlayEvent(); //添加音频点击播放相关事件监听
     this.addProgessEvent(); //进度条相关事件监听
+    this.addCommentEvent(); //评论相关事件监听
   }
 
   addProgessEvent() {
@@ -86,6 +89,27 @@ let $audioLyricParams = {
   lyricPath: './source/lyric/',
   $lyric: $('.lyric ul'),
   lyricItem: '.lyric ul li',
+};
+
+let $commentParams = {
+  $commentBox: $('#is_wri'),
+  $toggleCommentButton: $('.commet_title a').eq(2),
+  $commentButton: $('.commet_button').eq(1),
+  $writeMesText: $('#wri_mes'),
+  $writeMesNum: $('#wri_num'),
+  $commentAreaButton: $('.commet_title a').eq(0),
+  $commentContent: $('#total_commet'),
+  $commentHit: $('#hit_look'),
+  $sendCmmtButton: $('.commet_button').eq(0),
+  $sendHit: $('#wri_hit'),
+  $currentPage: $('#page_now'),
+  $finalPage: $('#page_final'),
+  $changePageButtons: $('.commet_changepage ul a'),
+  $freshCommentButton: $('.commet_title a').eq(1),
+  $pageJumpText: $('#select_page'),
+  $pageJumpButton: $('#click_page'),
+  $jumpHit: $('#hit_jump'),
+  $commentAudioName:$('.area_commet h3')
 }
 
-new SiyeMusic($audioListParams, $audioPlayParams, $progressParams, $audioLyricParams);
+new SiyeMusic($audioListParams, $audioPlayParams, $progressParams, $audioLyricParams, $commentParams);

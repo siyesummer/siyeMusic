@@ -134,11 +134,18 @@ export default class AudioPlay {
 
     if (this.audioType == 'music') {
       this.currentPlayAudioType = 'music';
+      this.musID = mus_mes.id //Comment类中的参数
+      this.radID = ''; //Comment类中的参数
       this.$audio.attr('src', `${this.musicPath}${mus_mes.id}.mp3`);
     } else if (this.audioType == 'radio') {
       this.currentPlayAudioType = 'radio';
+      this.musID = '' //Comment类中的参数
+      this.radID = mus_mes.id; //Comment类中的参数
       this.$audio.attr('src', `${this.radioPath}${mus_mes.id}.mp3`);
     }
+
+    this.lookCmmt(this.audioType,mus_mes.id);//查看该音频评论
+    this.$commentAudioName.html(mus_mes.musname);//评论区音频名称跟新
 
     this.$audioName.html(mus_mes.musname);
     $('title').text(mus_mes.musname);
